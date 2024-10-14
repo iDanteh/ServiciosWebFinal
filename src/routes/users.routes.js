@@ -1,13 +1,14 @@
 import { Router } from 'express';
-import { getUsers } from '../controllers/users.controllers.js';
+import { getUsers, getUserById, loginUser, registerUser, deleteUser, updateUser, authenticateToken } from '../controllers/users.controllers.js';
 
 const router = Router();
 
-router.get('/api/v1/', (req, res) => {res.send('Jalando');});
-router.get('/api/v1/users', getUsers);
-// router.get('/api/users/:userId', getUserById);
-// router.post('/api/users', createUser);
-// router.delete('/api/users/:userId', deleteUser);
-// router.put('/api/users/:userId', updateUser);
+router.get('/api/v1/', authenticateToken,(req, res) => {res.send('Jalando con JWT');});
+router.get('/api/v1/users', authenticateToken, getUsers);
+router.get('/api/v1/users/:userId', getUserById);   
+router.post('/api/v1/register', registerUser);
+router.post('/api/v1/login', loginUser);
+router.delete('/api/v1/users/:userId', deleteUser);
+router.put('/api/v1/users/:userId', updateUser);
 
 export default router;
