@@ -41,3 +41,34 @@ export const createCompany = async (req, res) => {
         res.status(500).json({ error: 'Error al crear la empresa'});
     }
 };
+
+export const updateCompany = async (req, res) => {
+    try {
+        const company = await Company.findByPk(req.params.companyId);
+        if (!company){
+            return res.status(404).json({ error: 'Empresa no encontrada'});
+        }
+
+        const { company_name, company_description, address } = req.body;
+        company.company_name = company_name;
+        company.company_description = company_description;
+        company.address = address;
+        await company.save();
+        res.status(200).json({ message: 'Empresa actualizada'});
+    } catch (error) {
+        console.log(error)
+    }
+};
+
+export const deleteCompany = async (req, res) => {
+    try {
+        const company = await Company.findByPk(req.params.companyId);
+        if (!company){
+            return res.status(404).json({ error: 'Empresa no encontrada'});
+        }
+        await company.destroy();
+        res.status(200).json({ message: 'Empresa eliminada'});
+    } catch (error) {
+        console.log(error);
+    }
+};

@@ -4,9 +4,11 @@ import userRoutes from './routes/users.routes.js';
 import companiesRoutes from './routes/companies.routes.js';
 import morgan from 'morgan';
 import sequelize from './database/database.js';
+import cors from 'cors';
 
 const app = express();
 
+app.use(cors());
 app.use(express.urlencoded({ extended: false }));
 app.use(morgan('dev'));
 app.use(express.json());
