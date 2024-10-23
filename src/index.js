@@ -2,6 +2,8 @@ import express from 'express';
 import { PORT } from './config.js';
 import userRoutes from './routes/users.routes.js';
 import companiesRoutes from './routes/companies.routes.js';
+import productsRoutes from './routes/products.routes.js';
+import categoriesRoutes from './routes/categories.routes.js';
 import morgan from 'morgan';
 import sequelize from './database/database.js';
 import cors from 'cors';
@@ -14,6 +16,8 @@ app.use(morgan('dev'));
 app.use(express.json());
 app.use(userRoutes);
 app.use(companiesRoutes);
+app.use(productsRoutes);
+app.use(categoriesRoutes);
 
 app.listen(PORT);
 console.log('Listening on port ', PORT);

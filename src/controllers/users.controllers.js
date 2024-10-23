@@ -48,7 +48,7 @@ export const registerUser = async (req, res) =>{
 
 //Generar token de acceso
 function generateAccessToken(user){
-    return jwt.sign({ id: user.id, name: user.name, email: user.email, role: user.role }, SECRET_KEY, { expiresIn: '5m' });
+    return jwt.sign({ id: user.id, name: user.name, email: user.email, role: user.role }, SECRET_KEY, { expiresIn: '1h' });
 };
 
 //Middleware para verificar el token de acceso
