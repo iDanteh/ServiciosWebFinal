@@ -10,7 +10,14 @@ import cors from 'cors';
 
 const app = express();
 
-app.use(cors());
+// app.use(cors());
+// Configuración de CORS para un origen específico
+app.use(cors({
+    origin: 'http://localhost:3000', // Pendiente de configurar para la ruta con el cliente
+    methods: 'GET,POST,PUT,DELETE', // Mtodos permitidos
+    allowedHeaders: 'Content-Type,Authorization' // Cabeceras permitidas
+}));
+
 app.use(express.urlencoded({ extended: false }));
 app.use(morgan('dev'));
 app.use(express.json());
