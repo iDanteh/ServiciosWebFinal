@@ -64,44 +64,6 @@ export const createProduct = async (req, res) => {
     }
 };
 
-
-// export const createProduct = async (req, res) => {
-//     try {
-//         const { company_id, name, description, price, stock, category_id, image_url } = req.body;
-        
-//         // Verificar que la categoría existe
-//         const category = await Category.findByPk(category_id);
-//         if (!category) {
-//             return res.status(404).json({ error: 'Categoría no encontrada' });
-//         }
-        
-//         // Verificar que la compañía existe
-//         console.log("company_id recibido:", company_id); // Depurar el ID de la compañía
-//         const company = await Company.findByPk(company_id);
-//         if (!company) {
-//             return res.status(404).json({ error: 'Compañía no encontrada' });
-//         }
-
-//         // Crear el nuevo producto
-//         const newProduct = await Product.create({
-//             company_id,
-//             name,
-//             description,
-//             price,
-//             stock,
-//             category_id,
-//             image_url,
-//         });
-
-//         res.status(201).json(newProduct);
-//     } catch (error) {
-//         res.status(500).json({ error: 'Error al crear el producto' });
-//         console.log(error);
-//     }
-// };
-
-
-
 export const updateProduct = async (req, res) => {
     try {
         const product = await Product.findByPk(req.params.productId);

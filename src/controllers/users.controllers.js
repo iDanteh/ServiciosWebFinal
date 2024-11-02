@@ -37,7 +37,7 @@ export const registerUser = async (req, res) =>{
         }
         
         const newUser = await User.create({ email, password, name, role });
-        const token = generateAccessToken(user);
+        const token = generateAccessToken(newUser);
         res.status(201).json(newUser);
         console.log(res.status(201).json({ token }));
     } catch (error) {
