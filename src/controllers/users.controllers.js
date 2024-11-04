@@ -26,25 +26,30 @@ export const getUserById = async(req, res) =>{
     }
 };
 
-export const registerUser = async (req, res) =>{
+export const registerUser = async (req, res) => {
     try {
         const role = "user";
-        const {name, email, password} = req.body;
+        const { name, email, password } = req.body;
         console.log(req.body);
+        
+        // Verificar si el usuario ya existe
         const user = await User.findOne({ where: { email: email } });
-        if(user){
-            return res.status(409).json({ error: 'El correo ingresado ya existe'});
+        if (user) {
+            return res.status(409).json({ error: 'El correo ingresado ya existe' });
         }
         
+        // Crear el nuevo usuario
         const newUser = await User.create({ email, password, name, role });
+        
+        // Generar el token de acceso y enviar la respuesta
         const token = generateAccessToken(newUser);
-        res.status(201).json(newUser);
-        console.log(res.status(201).json({ token }));
+        return res.status(201).json({ user: newUser, token });
     } catch (error) {
         console.log(error);
-        res.status(500).json({ error: 'Error al registrar el usuario'});
+        return res.status(500).json({ error: 'Error al registrar el usuario' });
     }
 };
+
 
 //Generar token de acceso
 function generateAccessToken(user){
