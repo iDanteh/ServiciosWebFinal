@@ -12,9 +12,19 @@ const app = express();
 
 // app.use(cors());
 // Configuración de CORS para un origen específico
+const allowedOrigins = ['http://192.168.43.132.com'];
 app.use(cors({
-    origin: 'http://localhost:3000', // Pendiente de configurar para la ruta con el cliente
-    methods: 'GET,POST,PUT,DELETE', // Mtodos permitidos
+    origin: (origin, callback) => {
+        // Permitir peticiones sin origen (por ejemplo, desde herramientas de pruebas)
+        if (!origin) return callback(null, true);
+
+        if (allowedOrigins.includes(origin)) {
+            callback(null, true); // Permite el acceso si el origen está en la lista permitida
+        } else {
+            callback(new Error('No autorizado por CORS')); // Rechaza la solicitud si el origen no está en la lista
+        }
+    },
+    methods: 'GET,POST,PUT,DELETE', // Métodos permitidos
     allowedHeaders: 'Content-Type,Authorization' // Cabeceras permitidas
 }));
 
