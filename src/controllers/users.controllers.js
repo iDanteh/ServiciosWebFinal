@@ -1,5 +1,6 @@
 import User from '../models/users.model.js';
 import jwt from 'jsonwebtoken';
+import bcrypt from 'bcrypt';
 // import secretKey from '../jwt/.env';
 const SECRET_KEY = 'serviciosweb';
 
@@ -37,9 +38,12 @@ export const registerUser = async (req, res) => {
         if (user) {
             return res.status(409).json({ error: 'El correo ingresado ya existe' });
         }
+
+        // Encriptar la contraseña
+        const hashedPassword = await bcrypt.hash(password, 10);
         
         // Crear el nuevo usuario
-        const newUser = await User.create({ email, password, name, role });
+        const newUser = await User.create({ email, password: hashedPassword, name, role });
         
         // Generar el token de acceso y enviar la respuesta
         const token = generateAccessToken(newUser);
@@ -80,18 +84,14 @@ export const loginUser = async (req, res) =>{
             return res.status(404).json({ error: 'Usuario no encontrado'});
         }
 
-        if(user.password !== password){
-            return res.status(401).json({ error: 'Contraseña incorrecta'});
+        // Verificar la contraseña
+        const isPasswordValid = await bcrypt.compare(password, user.password);
+        if (!isPasswordValid) {
+            return res.status(401).json({ error: 'Contraseña incorrecta' });
         }
 
         const accessToken = generateAccessToken(user); //Generar token de acceso
 
-        // res.status(200).json({
-        //     id: user.id,
-        //     name: user.name,
-        //     email: user.email,
-        //     role: user.role
-        // });
         res.status(200).json({ user, accessToken });
     } catch (error) {
         console.log(error);

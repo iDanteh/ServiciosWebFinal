@@ -1,7 +1,7 @@
 import { Sequelize } from 'sequelize';
 
 const sequelize = new Sequelize('servicios', 'lenin', '190622', {
-    host: '192.168.43.72',
+    host: '192.168.1.77',
     // host: '192.168.1.79',
     // host: '192.168.133.193',
     // // host: '192.168.133.40',

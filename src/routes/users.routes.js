@@ -8,7 +8,7 @@ router.get('/api/v1/users', authenticateToken, getUsers);
 router.get('/api/v1/users/:userId', getUserById);   
 router.post('/api/v1/register', registerUser);
 router.post('/api/v1/login', loginUser);
-router.delete('/api/v1/users/:userId', deleteUser);
-router.put('/api/v1/users/:userId', updateUser);
+router.delete('/api/v1/users/:userId', authenticateToken, deleteUser);
+router.put('/api/v1/users/:userId', authenticateToken, updateUser);
 
 export default router;
